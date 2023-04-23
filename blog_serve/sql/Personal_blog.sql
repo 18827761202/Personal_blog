@@ -4,7 +4,7 @@ CREATE TABLE `admin_user`  (
   `user_pswd` varchar(255) NULL COMMENT '用户密码',
   `nick_name` varchar(120) NULL COMMENT '昵称',
   `avatar` varchar(255) NULL COMMENT '头像',
-  `contact_number` int(11) NULL COMMENT '联系电话',
+  `contact_number` varchar(11) NULL COMMENT '联系电话',
   `signature` varchar(510) NULL COMMENT '签名',
   `last_time` datetime(0) NULL COMMENT '最近修改信息的时间',
   PRIMARY KEY (`user_guid`)
