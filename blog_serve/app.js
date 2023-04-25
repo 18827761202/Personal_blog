@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+
 // 引入mysql
 var mysql = require('mysql');
 var db = mysql.createConnection({
@@ -17,6 +18,9 @@ db.connect((err) => {
     console.log("mysql数据库连接成功")
   }
 });
+
+// 导出db
+module.exports = { db };
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -53,9 +57,7 @@ app.use(function (err, req, res, next) {
 });
 
 app.listen(() => {
-  console.log(`express server listen at http://localhost:3000`)
+  console.log(`express框架服务已在 http://localhost:3000 开启`)
 })
-// 导出db
-module.exports = db;
 
 module.exports = app;
