@@ -1,3 +1,6 @@
+:root {
+    --el-header-height:190px
+}
 body {
     margin: 0;
 }

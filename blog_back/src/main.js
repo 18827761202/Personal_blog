@@ -4,10 +4,13 @@ import App from './App.vue'
 import router from './router/index.js'
 import axios from 'axios'
 
+window.router = router
+
 router.beforeEach(async (to, from) => {
+  // router.push({ name: to.name })
   if (
     // 检查用户是否已登录
-    localStorage.getItem('token') == null &&
+    sessionStorage.getItem('token') == null &&
     // ❗️ 避免无限重定向
     to.name !== 'Login'
   ) {
@@ -23,8 +26,8 @@ router.beforeEach(async (to, from) => {
 
 // 将所有的axios请求都带上 请求头
 axios.interceptors.request.use(config => {
-  if (localStorage.getItem('token')) {
-    config.headers.Authorization = localStorage.getItem('token')
+  if (sessionStorage.getItem('token')) {
+    config.headers.Authorization = sessionStorage.getItem('token')
   }
   return config;
 }, error => {
