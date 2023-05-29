@@ -86,7 +86,7 @@ const login = (ruleFormRef) => {
     width: 800px;
     border-radius: 2%;
     overflow: hidden;
-    box-shadow: 0 0 5px 0;
+    box-shadow: 0 0 2px 0;
 }
 
 .admin_login {
@@ -97,12 +97,6 @@ const login = (ruleFormRef) => {
 
 .images {
     background: url(/public/images/login.jpg) no-repeat 27%;
-}
-
-#login_in {
-    height: 100vh;
-    background: url(/public/images/background.jpg) no-repeat;
-    background-size: 100% 100%;
 }
 
 .admin_title {

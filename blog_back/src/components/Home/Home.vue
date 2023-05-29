@@ -1,6 +1,6 @@
 <script setup>
 import axios from 'axios';
-import { ref, reactive } from 'vue'
+import { ref, reactive, onBeforeMount, onMounted, onUnmounted } from 'vue'
 import {
     Document,
     Location,
@@ -9,26 +9,42 @@ import {
     ChatLineRound, Male
 } from '@element-plus/icons-vue'
 
-const userinfo = reactive({
-    data: {}
-})
 const nowtime = ref(new Date())
 
-setInterval(() => {
-    nowtime.value = new Date()
-}, 1000)
-
-axios.get('/api/admin/home').then(res => {
-    const { message } = res.data
-    userinfo.data = message[0]
+const userinfo = reactive({
+    data:{}
 })
+const imageUrl = ref("https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png");
+let times;
+// 挂载前
+onBeforeMount(() => {
+    axios.get('/api/admin/home').then(res => {
+        const { message } = res.data
+        userinfo.data = message
+        sessionStorage.setItem('userinfo',JSON.stringify(userinfo.data))
+        imageUrl.value = userinfo.data.avatar == null ? imageUrl.value : `/api/${userinfo.data.avatar}`;
+    })
+})
+
+// 挂载后
+onMounted(() => {
+    times = setInterval(() => {
+        nowtime.value = new Date()
+    }, 1000)
+})
+
+// 卸载后
+onUnmounted(() => {
+    clearInterval(times)
+})
+
 </script>
 <template>
     <div class="common-layout">
         <el-container>
             <el-header class="el-header">
                 <div>
-                    <el-avatar class="el-img" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png" />
+                    <el-avatar class="el-img" :src="imageUrl" />
                 </div>
                 <div class="userinfo">
                     <p>早上好, {{ userinfo.data.nick_name }} {{ userinfo.data.signature }}</p>
@@ -165,7 +181,6 @@ axios.get('/api/admin/home').then(res => {
 
 .el-main {
     margin-top: 20px;
-    border-radius: 10px;
     max-height: calc(100vh - var(--el-header-height));
     flex: 4;
     padding: 0 0 0 20px;
@@ -173,6 +188,10 @@ axios.get('/api/admin/home').then(res => {
 
 .el-flex {
     align-items: flex-start;
+}
+
+.router-link {
+    text-decoration: none;
 }
 
 .router-link:active {
@@ -222,18 +241,19 @@ axios.get('/api/admin/home').then(res => {
 .userinfo {
     padding-left: 10px;
 }
-.userinfo p:first-child{
+
+.userinfo p:first-child {
     font-size: 18px;
     font-weight: bold;
     padding-top: 14px;
 }
 
-.userinfo p:last-child{
+.userinfo p:last-child {
     font-size: 14px;
     padding-top: 10px;
 }
-.userinfo p{
+
+.userinfo p {
     margin: 0;
 }
-
 </style>
